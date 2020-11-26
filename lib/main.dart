@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradline/cubit/app_start_cubit.dart';
 import 'package:tradline/view/route/main_rout.dart';
+import 'package:tradline/view/ui/screen/auth/screen/name_input_screen.dart';
 import 'package:tradline/view/ui/screen/splash_screen.dart';
 
 void main() {
@@ -54,11 +55,7 @@ class UnAuthenticated extends StatelessWidget {
         // Theme
         theme: ThemeData.light(), // flutter defult light themedata
         darkTheme: ThemeData.dark(), // flutter defult dark theme for dark mode
-        home: Scaffold(
-          body: Center(
-            child: Text("unauthenticated"),
-          ),
-        ));
+        home: NameInputScreen());
   }
 }
 

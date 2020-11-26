@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:tradline/cache/init_hive.dart';
+import 'package:tradline/repository/i_am_repository.dart';
 
 /// app start event
 enum AppStartCubitEvent {
-  AppStartedAppStartCubitEvent // event when app is start
+  AppStartedAppStartCubitEvent ,// event when app is start
+  AuthAppStartCubitEvent ,// event when user enter and proceed
 }
 
 // app start states
@@ -25,8 +27,24 @@ class AppStartCubit extends Bloc<AppStartCubitEvent, AppStartCubitState> {
 
   @override
   Stream<AppStartCubitState> mapEventToState(AppStartCubitEvent event) async* {
+    // load database
+    if(event==AppStartCubitEvent.AppStartedAppStartCubitEvent){
     await InitHive().init();
-    await Future.delayed(Duration(seconds: 2));
-    yield AppStartCubitState.AuthenticatedAppStartCubitState;
+
+    // just for animation purpose
+    await Future.delayed(Duration(seconds: 1));
+    if (NameRepository().get() != null) {
+      yield AppStartCubitState.AuthenticatedAppStartCubitState;
+    } else {
+      yield AppStartCubitState.UnAuthenticatedAppStartCubitState;
+    }
+    }
+    else{
+      if (NameRepository().get() != null) {
+        yield AppStartCubitState.AuthenticatedAppStartCubitState;
+      } else {
+        yield AppStartCubitState.UnAuthenticatedAppStartCubitState;
+      }
+    }
   }
 }

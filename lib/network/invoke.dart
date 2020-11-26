@@ -30,17 +30,24 @@ class Invoke {
     return response;
   }
 
-  Future<Response> get({apiUrl, addAuthHeader = true}) async {
+  Future<Response> get({apiUrl, addAuthHeader = true,debug =false}) async {
     Map<String, dynamic> header = {};
 
     //// adding auth token in header
     if (addAuthHeader) header = {'Authorization': 'Token ' + "12344567"};
+
+    if(debug){print("-----------------api url----------------");
+    print(apiUrl);}
 
     Response response = await dio.get(
       apiUrl,
       options: Options(headers: header),
     );
 
+    if(debug) {
+      print("-----------------response---------------");
+      print(response.data);
+    }
     return response;
   }
 

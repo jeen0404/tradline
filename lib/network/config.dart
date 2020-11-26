@@ -1,9 +1,9 @@
 class Config {
   static final Env env = Env.Development;
   static final String urlAddress =
-      "us-central1-stock-fantasy-fd46e.cloudfunctions.net";
+      "us-central1-stock-fantasy-fd46e.cloudfunctions.net/";
   String get endPoint => env == Env.Development
-      ? 'http://' + urlAddress
+      ? 'https://' + urlAddress
       : // development Url
       ""; //dev url // Production Url
 
