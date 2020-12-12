@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradline/model/trading_list_card_model.dart';
+
 
 class TradingListCard extends StatefulWidget {
   final TradingListCardModel tradingListCardModel;
@@ -9,15 +12,7 @@ class TradingListCard extends StatefulWidget {
   _TradingListCardState createState() => _TradingListCardState();
 }
 
-class _TradingListCardState extends State<TradingListCard>
-    with AutomaticKeepAliveClientMixin {
-
-  @override
-  void dispose() {
-    this.widget.tradingListCardModel.updateTradingModel.close();
-    super.dispose();
-  }
-
+class _TradingListCardState extends State<TradingListCard> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -41,7 +36,44 @@ class _TradingListCardState extends State<TradingListCard>
                 shape: BoxShape.circle, border: Border.all(color: Colors.blue)),
             child: IconButton(
               iconSize: 15,
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    context: context,
+                    builder: (builder){
+                      return new Container(
+                        margin: EdgeInsets.all(10),
+                        height: 360.0,
+                        color: Colors.transparent,
+                        child:Column(
+                        //  mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(width:50,height: 2,color: Theme.of(context).primaryColor,),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CircleAvatar(
+                                radius: 30,
+                                child: Center(
+                                    child: Text(
+                                      widget.tradingListCardModel.tradingDataModel.companyName
+                                          .substring(0, 2),
+                                      style: Theme.of(context).textTheme.headline6,
+                                    )),
+                              ),
+                            ),
+                            Text(
+                              widget.tradingListCardModel.tradingDataModel.companyName,
+                              style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15,fontWeight: FontWeight.normal,letterSpacing: 2),
+                            ),
+                          ],
+                        )
+                      );
+                    }
+                );
+              },
               icon: Column(
                 children: [
                   Icon(Icons.keyboard_arrow_up),
@@ -102,5 +134,19 @@ class _TradingListCardState extends State<TradingListCard>
   }
 
   @override
+
   bool get wantKeepAlive => true;
+}
+
+
+
+class DoubleCubit extends Bloc<double,double> {
+
+  DoubleCubit({double initialState=0}) : super(initialState);
+
+@override
+  Stream<double> mapEventToState(double event) async*{
+    yield event;
+  }
+
 }
